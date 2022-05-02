@@ -1,4 +1,4 @@
-{% set version = "2.0-3" %}
+{% set version = "2.0-5" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,11 +10,11 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/PolynomF_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/PolynomF/PolynomF_{{ version }}.tar.gz
-  sha256: 89535c4f838c13b970a0b52ac02aa3250f4dc90055e405da7e66cb2f6238f418
+  sha256: a86f7a8c768c9361a5203a7152532a39e038800f6db9b49b8591c8e2de135b2b
 
 build:
-  merge_build_host: True  # [win]
-  number: 1
+  merge_build_host: true  # [win]
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
@@ -30,6 +30,7 @@ requirements:
     - {{ posix }}sed               # [win]
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
   host:
     - r-base
     - r-rcpp
@@ -45,11 +46,11 @@ test:
 
 about:
   home: https://CRAN.R-project.org/package=PolynomF
-  license: GPL-2
-  summary: Implements univariate polynomial operations in R, including polynomial arithmetic,
-    finding zeros, plotting, and some operations on lists of polynomials.
+  license: GPL-2.0-only
+  summary: Implements univariate polynomial operations in R, including polynomial arithmetic, finding zeros, plotting, and some operations on lists of polynomials.
   license_family: GPL2
-  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'
+  license_file:
+    - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2
 
 extra:
   recipe-maintainers:
